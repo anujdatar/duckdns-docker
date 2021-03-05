@@ -1,11 +1,12 @@
-FROM alpine:3.12
+FROM alpine:latest
 
-ADD crontab.txt /crontab.txt
+# default env variables
+ENV FREQUENCY 5
+
 ADD duck.sh /duck.sh
-COPY entry.sh /entry.sh
+ADD entry.sh /entry.sh
 
-RUN chmod 755 /duck.sh /entry.sh
-
-RUN /usr/bin/crontab /crontab.txt
+RUN apk --no-cache add curl
+RUN chmod 700 /duck.sh /entry.sh
 
 CMD ["/entry.sh"]
