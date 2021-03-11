@@ -1,0 +1,49 @@
+# This is a basic workflow to help you get started with Actions
+
+name: DuckDNS Docker Builds
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      
+      # Log into docker
+      - name: Docker login
+        env:
+          DOCKER_USER: ${{ secrets.DOCKER_USER }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+          
+      # Setup build dependencies
+      - name: Setup build dependencies
+        run: docker run --privileged --rm tonistiigi/binfmt --install all
+      
+      # Setup docker buildx 
+      - name: Add buildx env
+        run: |
+          docker buildx create --name duckbuild
+          docker buildx use duckbuild
+          docker buildx inspect --bootstrap
+          docker buildx ls
+      
+      # Build DuckDNS images for all architectures
+      - name: Build DuckDNS images
+        run: docker buildx build --push --platfrom linux/arm/v7,linux/arm64,linux/amd64 --tag anujdatar/duckdns:latest .
