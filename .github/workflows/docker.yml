@@ -47,4 +47,4 @@ jobs:
       
       # Build DuckDNS images for all architectures
       - name: Build DuckDNS images
-        run: docker buildx build --push --platfrom linux/arm/v7,linux/arm64,linux/amd64 --tag anujdatar/duckdns:latest .
+        run: docker buildx build --push --platfrom=linux/arm/v7,linux/arm64,linux/amd64 --tag anujdatar/duckdns:latest .
