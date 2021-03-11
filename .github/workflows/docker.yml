@@ -39,16 +39,11 @@ jobs:
       # Setup docker buildx 
       - name: Add buildx env
         run: |
-          docker version
           docker buildx create --name duckbuild
           docker buildx use duckbuild
           docker buildx inspect --bootstrap
           docker buildx ls
-      
-      # Docker buildx help
-      - name: docker buildx help
-        run: docker buildx build --help
 
       # Build DuckDNS images for all architectures
       - name: Build DuckDNS images
-        run: docker buildx build --push --platfrom=linux/arm/v7,linux/arm64,linux/amd64 --tag anujdatar/duckdns:latest .
+        run: docker buildx build --push --platform linux/arm/v7,linux/arm64,linux/amd64 --tag anujdatar/duckdns:latest .
