@@ -39,6 +39,7 @@ jobs:
       # Setup docker buildx 
       - name: Add buildx env
         run: |
+          docker version
           docker buildx create --name duckbuild
           docker buildx use duckbuild
           docker buildx inspect --bootstrap
