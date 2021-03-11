@@ -1,0 +1,19 @@
+version: "3"
+services:
+  testduckdns:
+    image: anujdatar/duckdns
+    container_name: duckdns
+    restart: unless-stopped
+    environment:
+      - SUBDOMAINS_FILE=/run/secrets/duckdns_subdomains
+      - TOKEN_FILE=/run/secrets/duckdns_token
+      - FREQUENCY=1
+    secrets:
+      - duckdns_subdomains
+      - duckdns_token
+
+secrets:
+  duckdns_subdomains:
+    file: duckdns_subdomains.txt
+  duckdns_token:
+    file: duckdns_token.txt
