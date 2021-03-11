@@ -1,11 +1,8 @@
 # DuckDNS Docker
 
-Update IP on DuckDNS periodically, with minimal dependencies.
+Update IP on DuckDNS periodically. Works with docker secrets. Tested on `amd64`, `armv7` and `arm64`.
 
 Uses Alpine Linux for a minimal footprint. Uses a cronjob to run the standard DuckDNS curl script using no external dependencies.
-
-Also works with docker secrets.
-Tested on `amd64` and `aarm64`
 
 ---
 
@@ -33,8 +30,8 @@ docker run -d \
 ```yml
 version: "3"
 services:
-  testduckdns:
-    image: duckdns
+  duckdns:
+    image: anujdatar/duckdns
     container_name: duckdns
     restart: unless-stopped
     environment:
