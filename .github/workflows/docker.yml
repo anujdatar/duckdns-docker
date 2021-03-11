@@ -47,7 +47,7 @@ jobs:
       
       # Docker buildx help
       - name: docker buildx help
-        run: docker buildx --help
+        run: docker buildx build --help
 
       # Build DuckDNS images for all architectures
       - name: Build DuckDNS images
