@@ -49,7 +49,7 @@ In case you plan to commit your docker-compose files to repos and wish to keep t
 version: "3"
 services:
   testduckdns:
-    image: duckdns
+    image: anujdatar/duckdns
     container_name: duckdns
     restart: unless-stopped
     environment:
