@@ -7,7 +7,7 @@ services:
     environment:
       - SUBDOMAINS_FILE=/run/secrets/duckdns_subdomains
       - TOKEN_FILE=/run/secrets/duckdns_token
-      - FREQUENCY=1
+      - FREQUENCY=5
     secrets:
       - duckdns_subdomains
       - duckdns_token
