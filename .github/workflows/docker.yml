@@ -1,8 +1,6 @@
-# This is a basic workflow to help you get started with Actions
+name: Publish DuckDNS Docker Image to Docker Hub
 
-name: DuckDNS Docker Builds
-
-# Controls when the action will run. 
+# Controls when the action will run.
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
@@ -10,40 +8,44 @@ on:
   pull_request:
     branches: [ main ]
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
+    # base container to build on
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    # sequence of tasks in the build process
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-      
-      # Log into docker
-      - name: Docker login
-        env:
-          DOCKER_USER: ${{ secrets.DOCKER_USER }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-          
-      # Setup build dependencies
-      - name: Setup build dependencies
-        run: docker run --privileged --rm tonistiigi/binfmt --install all
-      
-      # Setup docker buildx 
-      - name: Add buildx env
-        run: |
-          docker buildx create --name duckbuild
-          docker buildx use duckbuild
-          docker buildx inspect --bootstrap
-          docker buildx ls
+      - name: Checkout repo
+        uses: actions/checkout@v3
 
-      # Build DuckDNS images for all architectures
-      - name: Build DuckDNS images
-        run: docker buildx build --push --platform linux/arm/v7,linux/arm64,linux/amd64 --tag anujdatar/duckdns:latest .
+      - name: Docker Hub login
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ secrets.DOCKER_USER }}/duckdns
+          tags: |
+            type=semver,pattern={{version}}
+            type=raw,value={{date 'YY.MM.DD'}}
+          flavor: |
+            latest=true
+
+      - name: Setup QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build and push images
+        uses: docker/build-push-action@v4
+        with:
+          context: ./
+          file: ./Dockerfile
+          platforms: linux/arm/v7,linux/arm64,linux/amd64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
