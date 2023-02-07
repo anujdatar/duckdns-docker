@@ -1,5 +1,7 @@
 #!/bin/sh
 
+. /duck.sh
+
 # add duck start script to crontab
 echo "*/${FREQUENCY} * * * * /duck.sh" > /crontab.txt
 /usr/bin/crontab /crontab.txt
