@@ -1,4 +1,4 @@
-FROM alpine:3.12
+FROM alpine:latest
 
 # default env variables
 ENV FREQUENCY 5
