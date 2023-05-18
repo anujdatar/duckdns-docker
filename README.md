@@ -4,6 +4,10 @@ Update IP on DuckDNS periodically. Works with docker secrets. Tested on `amd64`,
 
 Uses Alpine Linux for a minimal footprint. Uses a cronjob to run the standard DuckDNS curl script using no external dependencies.
 
+Container packages available from Docker Hub and Github Container Registry (ghcr.io)
+  - Docker Hub Image: `anujdatar/duckdns`
+  - GHCR Image: `ghcr.io/anujdatar/duckdns`
+
 ---
 
 ## Parameters / Environment Variables
