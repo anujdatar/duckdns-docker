@@ -5,7 +5,6 @@ LABEL org.opencontainers.image.description="DuckDNS IP Updater"
 LABEL org.opencontainers.image.author="Anuj Datar <anuj.datar@gmail.com>"
 LABEL org.opencontainers.image.url="https://github.com/anujdatar/duckdns-docker/blob/main/README.md"
 LABEL org.opencontainers.image.licenses=MIT
-LABEL org.opencontainers.image.version=23.02.07
 
 # default env variables
 ENV FREQUENCY 5
