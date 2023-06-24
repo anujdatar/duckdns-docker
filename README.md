@@ -16,6 +16,7 @@ Container packages available from Docker Hub and Github Container Registry (ghcr
 | 1 | FREQUENCY | 5 | OPTIONAL | how often you want to update IP on DuckDNS (default = every 5 minutes) |
 | 2 | SUBDOMAINS | - | REQUIRED | your registered DuckDNS subdomains. Multiple comma separated subdomains allowed, no spaces. |
 | 3 | TOKEN | - | REQUIRED | DuckDNS token |
+| 4 | TZ | UTC | OPTIONAL | timezone so logs can be in local tz, instead of UTC |
 
 ---
 
@@ -25,9 +26,10 @@ Container packages available from Docker Hub and Github Container Registry (ghcr
 docker run -d \
   -e SUBDOMAINS=<your-comma-separated-subdomains> \
   -e TOKEN=<your-duckdns-token> \
+  -e TZ=America/New_York \
   --restart unless-stopped \
   --name duckdns \
-  duckdns
+  ghcr.io/anujdatar/duckdns
 ```
 
 ### docker-compose
@@ -35,12 +37,13 @@ docker run -d \
 version: "3"
 services:
   duckdns:
-    image: anujdatar/duckdns
+    image: ghcr.io/anujdatar/duckdns
     container_name: duckdns
     restart: unless-stopped
     environment:
       - SUBDOMAINS=<your-comma-separated-subdomains>
       - TOKEN=<your-duckdns-token>
+      - TZ=America/New_York
       - FREQUENCY=1  # OPTIONAL, default is 5
 ```
 
@@ -50,12 +53,13 @@ In case you plan to commit your docker-compose files to repos and wish to keep t
 version: "3"
 services:
   testduckdns:
-    image: anujdatar/duckdns
+    image: ghcr.io/anujdatar/duckdns
     container_name: duckdns
     restart: unless-stopped
     environment:
       - SUBDOMAINS_FILE=/run/secrets/duckdns_subdomains
       - TOKEN_FILE=/run/secrets/duckdns_token
+      - TZ=America/New_York
       - FREQUENCY=1  # OPTIONAL, default is 5
     secrets:
       - duckdns_subdomains
