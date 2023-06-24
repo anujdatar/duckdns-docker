@@ -9,10 +9,11 @@ LABEL org.opencontainers.image.licenses=MIT
 # default env variables
 ENV FREQUENCY 5
 
-ADD duck.sh /duck.sh
-ADD entry.sh /entry.sh
+# install dependencies
+RUN apk update && apk add --no-cache tzdata curl
 
-RUN apk add --no-cache curl
-RUN chmod 700 /duck.sh /entry.sh
+# copy scripts over
+COPY scripts /
+RUN chmod 700 /container-setup.sh /ddns-update.sh /entry.sh
 
 CMD ["/entry.sh"]
