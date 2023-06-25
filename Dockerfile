@@ -8,9 +8,10 @@ LABEL org.opencontainers.image.licenses=MIT
 
 # default env variables
 ENV FREQUENCY 5
+ENV RECORD_TYPE A
 
 # install dependencies
-RUN apk update && apk add --no-cache tzdata curl
+RUN apk update && apk add --no-cache tzdata curl bind-tools
 
 # copy scripts over
 COPY scripts /

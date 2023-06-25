@@ -37,10 +37,22 @@ if [ -z "$SUBDOMAINS" ]; then
 fi
 echo "DuckDNS Subdomains  ---  OK"
 # #####################################################################
-# Step 4: Save to config file
+# Step 4: Record type
+if [ "$RECORD_TYPE" == "A" ]; then
+    echo "Record type to be updated: A (IPv4)"
+elif [ "$RECORD_TYPE" == "AAAA" ]; then
+    echo "Record type to be updated: AAAA (IPv6)"
+else
+    RECORD_TYPE="A"
+    echo "Unknown record type, assuming A-record (IPv4)"
+fi
+# #####################################################################
+# Step 5: Save to config file
 print_breaker
+touch /old_record_ip
 echo "TOKEN=\"$TOKEN\"" > /config.sh
 echo "SUBDOMAINS=\"$SUBDOMAINS\"" >> /config.sh
+echo "RECORD_TYPE=\"$RECORD_TYPE\"" >> /config.sh
 # #####################################################################
 echo "DuckDNS container setup complete"
 print_breaker
