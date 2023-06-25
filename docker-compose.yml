@@ -8,10 +8,20 @@ services:
       - SUBDOMAINS_FILE=/run/secrets/duckdns_subdomains
       - TOKEN_FILE=/run/secrets/duckdns_token
       - TZ=America/New_York
+      - RECORD_TYPE=AAAA
       - FREQUENCY=5
     secrets:
       - duckdns_subdomains
       - duckdns_token
+
+networks:
+  default:
+    driver: bridge
+    enable_ipv6: true
+    ipam:
+      driver: default
+      config:
+        - subnet: fd00::/64
 
 secrets:
   duckdns_subdomains:
