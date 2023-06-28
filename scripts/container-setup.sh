@@ -35,7 +35,7 @@ if [ -z "$SUBDOMAINS" ]; then
   echo "Please enter a valid SUBDOMAINS env variable or SUBDOMAINS_FILE secret"
   exit 1
 fi
-echo "DuckDNS Subdomains  ---  OK"
+echo "DuckDNS Subdomains: $SUBDOMAINS  ---  OK"
 # #####################################################################
 # Step 4: Record type
 if [ "$RECORD_TYPE" == "A" ]; then
