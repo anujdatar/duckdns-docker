@@ -6,6 +6,33 @@ print_breaker() {
 . /config.sh
 
 # #####################################################################
+# functions to get public ip
+get_ip4() {
+  CURRENT_IP=$(curl -s https://ipv4.icanhazip.com/ || curl -s https://api.ipify.org)
+  if [ -z $CURRENT_IP ]; then
+    dig_ip=$(dig txt ch +short whoami.cloudflare @1.1.1.1)
+    if [ "$?" = 0 ]; then
+      CURRENT_IP=$(echo $dig_ip | tr -d '"')
+    else
+      exit 1
+    fi
+  fi
+  echo $CURRENT_IP
+}
+
+get_ip6() {
+  CURRENT_IP=$(curl -s https://ipv6.icanhazip.com/ || curl -s https://api6.ipify.org)
+  if [ -z $CURRENT_IP ]; then
+    dig_ip=$(dig txt ch +short whoami.cloudflare @2606:4700:4700::1111)
+    if [ "$?" = 0 ]; then
+      CURRENT_IP=$(echo $dig_ip | tr -d '"')
+    else
+      exit 1
+    fi
+  fi
+  echo $CURRENT_IP
+}
+# #####################################################################
 # Step 1: get public IP address
 echo Fetching record type: $RECORD_TYPE
 if [ "$RECORD_TYPE" == "A" ]; then
