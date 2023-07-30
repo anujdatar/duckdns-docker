@@ -48,12 +48,11 @@ else
 fi
 # #####################################################################
 # Step 5: Save to config file
-print_breaker
 touch /old_record_ip
 echo "TOKEN=\"$TOKEN\"" > /config.sh
 echo "SUBDOMAINS=\"$SUBDOMAINS\"" >> /config.sh
 echo "RECORD_TYPE=\"$RECORD_TYPE\"" >> /config.sh
 # #####################################################################
-echo "DuckDNS container setup complete"
 print_breaker
+echo "Container setup complete, starting DDNS update loop..."
 print_breaker

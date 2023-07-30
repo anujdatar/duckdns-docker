@@ -1,8 +1,5 @@
 #!/bin/sh
 
-print_breaker() {
-    echo "-----------------------------------------------"
-}
 . /config.sh
 
 # #####################################################################
@@ -43,23 +40,23 @@ elif [ "$RECORD_TYPE" == "AAAA" ]; then
 fi
 
 if [ -z $CURRENT_IP ]; then
-    echo "No public IP found: check internet connection or network settings"
-    exit 1
+  echo "[$(date)]: Public IP not found, check internet connection"
+  exit 1
 fi
 # #####################################################################
 # Step 2: check against old ip
 OLD_IP=$(cat /old_record_ip)
 if [ "$OLD_IP" == "$CURRENT_IP" ]; then
-    echo "[$(date)]: IP unchanged, not updating. IP: $CURRENT_IP"
-    exit 0
+  echo "[$(date)]: IP unchanged, not updating. IP: $CURRENT_IP"
+  exit 0
 fi
 # #####################################################################
 # Step 3: Update ddns
 update=$(curl -s "https://www.duckdns.org/update?domains=${SUBDOMAINS}&token=${TOKEN}&${PROTO}=${CURRENT_IP}")
 
 if [ "$update" == "OK" ]; then
-  echo "[$(date)]: DuckDNS update successful.  IP: $CURRENT_IP"
+  echo "[$(date)]: DDNS update successful...   IP: $CURRENT_IP"
   echo $CURRENT_IP > /old_record_ip
 else
-  echo "[$(date)]: DuckDNS update failed. Curr IP: $CURRENT_IP"
+  echo "[$(date)]: DDNS update failed...  Curr IP: $CURRENT_IP"
 fi
