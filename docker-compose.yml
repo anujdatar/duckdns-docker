@@ -9,7 +9,7 @@ services:
       - TOKEN_FILE=/run/secrets/duckdns_token
       - TZ=America/New_York
       - RECORD_TYPE=AAAA
-      - FREQUENCY=5
+      - FREQUENCY=1
     secrets:
       - duckdns_subdomains
       - duckdns_token
