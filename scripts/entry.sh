@@ -3,7 +3,7 @@
 . /container-setup.sh
 . /ddns-update.sh
 
-# add duck start script to crontab
+# add DuckDNS start script to crontab
 echo "*/${FREQUENCY} * * * * /ddns-update.sh" > /crontab.txt
 /usr/bin/crontab /crontab.txt
 
