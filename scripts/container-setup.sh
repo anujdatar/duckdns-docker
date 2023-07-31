@@ -17,6 +17,7 @@ fi
 echo "Starting DuckDNS container: [$(date)]"
 print_breaker
 # #####################################################################
+echo "Performing basic container parameter check..."
 # Step 2: Check API Key
 if [ -f "$TOKEN_FILE" ]; then
   TOKEN=$(cat "$TOKEN_FILE")
