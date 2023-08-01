@@ -40,12 +40,12 @@ echo "DuckDNS Subdomains: $SUBDOMAINS  ---  OK"
 # #####################################################################
 # Step 4: Record type
 if [ "$RECORD_TYPE" == "A" ]; then
-    echo "Record type to be updated: A (IPv4)"
+  echo "Record type to be updated: A (IPv4)"
 elif [ "$RECORD_TYPE" == "AAAA" ]; then
-    echo "Record type to be updated: AAAA (IPv6)"
+  echo "Record type to be updated: AAAA (IPv6)"
 else
-    RECORD_TYPE="A"
-    echo "Unknown record type, assuming A-record (IPv4)"
+  RECORD_TYPE="A"
+  echo "Unknown record type, assuming A-record (IPv4)"
 fi
 # #####################################################################
 # Step 5: Save to config file
